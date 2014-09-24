@@ -2,12 +2,11 @@
 namespace Job\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Form\Annotation;
 
 /**
  * Vacancy
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Job\Repository\VacancyRepository")
  * @ORM\Table(name="vacancy")
  */
 class Vacancy
@@ -21,32 +20,13 @@ class Vacancy
     protected $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
-     * @Annotation\Validator({"name":"NotEmpty"})
+     * @ORM\OneToMany(targetEntity="Description" , mappedBy="vacancy" , cascade={"all"})
      */
-    protected $name;
+    protected $descriptions;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=1024, nullable=false)
-     * @Annotation\Validator({"name":"NotEmpty"})
-     */
-    protected $description;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=5, nullable=false)
-     * @Annotation\Validator({"name":"NotEmpty"})
-     */
-    protected $lang;
-
-    /**
-     * @var string
-     *
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="vacancies")
      * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=false)
-     * @Annotation\Validator({"name":"NotEmpty"})
      */
     protected $department;
 
@@ -73,78 +53,58 @@ class Vacancy
     }
 
     /**
-     * Get name.
+     * Set descriptions.
      *
-     * @return string
+     * @param  \Job\Entity\Description $descriptions
+     * @return Vacancy
      */
-    public function getName()
+    public function setDescriptions(\Job\Entity\Description $descriptions = null)
     {
-        return $this->name;
+        $this->descriptions = $descriptions;
+
+        return $this;
     }
 
     /**
-     * Set name.
+     * Get descriptions.
      *
-     * @param string $name
-     *
-     * @return void
+     * @return \Job\Entity\Description
      */
-    public function setName($name)
+    public function getDescriptions()
     {
-        $this->name = $name;
+        return $this->descriptions;
     }
 
     /**
-     * Get description.
+     * Add description.
      *
-     * @return string
+     * @param \Job\Entity\Description $descriptions
+     * @return Vacancy
      */
-    public function getDescription()
+    public function addDescription(\Job\Entity\Description $descriptions)
     {
-        return $this->description;
+        $this->descriptions[] = $descriptions;
+
+        return $this;
     }
 
     /**
-     * Set description.
+     * Remove description.
      *
-     * @param string $description
-     *
-     * @return void
+     * @param \Job\Entity\Description $descriptions
      */
-    public function setDescription($description)
+    public function removeVacancy(\Job\Entity\Description $descriptions)
     {
-        $this->description = $description;
-    }
-
-    /**
-     * Get language.
-     *
-     * @return string
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * Set language.
-     *
-     * @param string $lang
-     *
-     * @return void
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
+        $this->descriptions->removeElement($descriptions);
     }
 
     /**
      * Set department.
      *
-     * @param string $department
+     * @param  \Job\Entity\Department $department
      * @return Vacancy
      */
-    public function setDepartment($department)
+    public function setDepartment(\Job\Entity\Department $department = null)
     {
         $this->department = $department;
 
@@ -154,7 +114,7 @@ class Vacancy
     /**
      * Get department.
      *
-     * @return string
+     * @return \Job\Entity\Department
      */
     public function getDepartment()
     {

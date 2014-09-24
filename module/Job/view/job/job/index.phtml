@@ -1,0 +1,44 @@
+<div class="form-group filter">
+    <form method="POST" class="form-inline" role="form">
+        <div class="form-group">
+            <select class="form-control" name="lang_filter" id="lang_filter">
+                <option value="0">Select language</option>
+                <?php foreach($languages as $key => $lang):?>
+                    <option value="<?php echo $key ?>" <?php if(isset($select_lang) && $key == $select_lang){echo "selected";} ?>><?php echo $lang ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="dep_filter" id="dep_filter">
+                <option value="0">Select department</option>
+                <?php foreach($departments as $department):?>
+                    <option value="<?php echo $department->getId() ?>"  <?php if(isset($select_dep) && $department->getId() == $select_dep){echo "selected";} ?>><?php echo $department->getName() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="form-control btn btn-primary" type="submit" name="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="form-group">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Department</th>
+            <th>Vacancy</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($vacancies as $vacancy):?>
+            <tr>
+                <td><?php echo $vacancy['dep_name'] ?></td>
+                <td><?php echo $vacancy['d_name'] ?></td>
+                <td><?php echo $vacancy['d_details'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

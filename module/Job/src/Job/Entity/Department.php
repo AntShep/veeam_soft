@@ -8,7 +8,7 @@ use Zend\Form\Annotation;
  * Department
  *
  * @ORM\Entity
- * @ORM\Table(name="department")
+ * @ORM\Table(name="department", indexes={@ORM\Index(name="name", columns={"name"})})
  */
 class Department
 {
@@ -94,7 +94,7 @@ class Department
      *
      * @return \Job\Entity\Vacancy
      */
-    public function getFavourites()
+    public function getVacancies()
     {
         return $this->vacancies;
     }
