@@ -2,6 +2,7 @@
 namespace Job\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Job\Model\Identifier\IdentifierTrait;
 
 /**
  * Vacancy
@@ -11,13 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Vacancy
 {
-    /**
-     * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdentifierTrait;
 
     /**
      * @ORM\OneToMany(targetEntity="Description" , mappedBy="vacancy" , cascade={"all"})
@@ -26,31 +21,9 @@ class Vacancy
 
     /**
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="vacancies")
-     * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=true)
      */
     protected $department;
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set id.
-     *
-     * @param int $id
-     *
-     * @return void
-     */
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
 
     /**
      * Set descriptions.

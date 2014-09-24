@@ -3,6 +3,7 @@ namespace Job\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation;
+use Job\Model\Identifier\IdentifierTrait;
 
 /**
  * Description
@@ -16,13 +17,7 @@ use Zend\Form\Annotation;
  */
 class Description
 {
-    /**
-     * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdentifierTrait;
 
     /**
      * @var string
@@ -50,28 +45,6 @@ class Description
      * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id", nullable=false)
      */
     protected $vacancy;
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set id.
-     *
-     * @param int $id
-     *
-     * @return void
-     */
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
 
     /**
      * Get name.

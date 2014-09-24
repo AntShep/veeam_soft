@@ -29,9 +29,14 @@ class VacancyRepository extends EntityRepository {
         }
         if($lang) {
             $qb
-                ->andWhere('d.lang = :lang OR d.lang = :defaultLang')
+                ->addSelect('CASE WHEN d.lang = :lang THEN 0
+                             WHEN d.lang = :defaultLang THEN 1 ELSE 2
+                             END as HIDDEN langOrder')
+//                ->andWhere('')
                 ->setParameter('lang', $lang)
-                ->setParameter('defaultLang', $defaultLang);
+                ->setParameter('defaultLang', $defaultLang)
+                ->orderBy('langOrder');
+//                ->groupBy('d.vacancy');
         }
 
         return $qb->getQuery()->getScalarResult();
