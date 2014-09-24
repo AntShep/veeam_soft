@@ -4,6 +4,11 @@ namespace Job\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Vacancy repository.
+ *
+ * Should be used inside vacancy's entity, that needs to be filtered.
+ */
 class VacancyRepository extends EntityRepository {
 
     public function getAllVacancies()

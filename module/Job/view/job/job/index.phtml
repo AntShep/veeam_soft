@@ -23,6 +23,9 @@
 </div>
 
 <div class="form-group">
+    <?php if(empty($vacancies)):?>
+        Vacancies not found
+    <?php else :?>
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -41,4 +44,5 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    <?php endif; ?>
 </div>

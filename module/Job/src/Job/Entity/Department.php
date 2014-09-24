@@ -23,7 +23,7 @@ class Department
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Vacancy" , mappedBy="department" , cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Vacancy" , mappedBy="department" , cascade={"remove"})
      */
     private $vacancies;
 

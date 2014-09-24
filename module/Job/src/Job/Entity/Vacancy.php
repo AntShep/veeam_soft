@@ -21,7 +21,7 @@ class Vacancy
 
     /**
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="vacancies")
-     * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $department;
 

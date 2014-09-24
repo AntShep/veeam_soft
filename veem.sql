@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 22 2014 г., 06:57
+-- Время создания: Авг 12 2014 г., 08:59
 -- Версия сервера: 5.5.37-0ubuntu0.13.10.1
--- Версия PHP: 5.5.3-1ubuntu2.6
+-- Версия PHP: 5.5.3-1ubuntu2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 --
 -- Дамп данных таблицы `department`
@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `department` (
 INSERT INTO `department` (`id`, `name`) VALUES
 (1, 'department1'),
 (2, 'department2'),
-(3, 'Marco Pivetta');
+(6, 'department3'),
+(7, 'department4');
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,7 @@ INSERT INTO `description` (`id`, `vacancy_id`, `name`, `details`, `lang`) VALUES
 
 CREATE TABLE IF NOT EXISTS `vacancy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `department_id` int(11) NOT NULL,
+  `department_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A9346CBDAE80F5DF` (`department_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
@@ -93,7 +94,7 @@ INSERT INTO `vacancy` (`id`, `department_id`) VALUES
 (5, 1),
 (3, 2),
 (4, 2),
-(2, 3);
+(2, 6);
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -109,7 +110,7 @@ ALTER TABLE `description`
 -- Ограничения внешнего ключа таблицы `vacancy`
 --
 ALTER TABLE `vacancy`
-  ADD CONSTRAINT `FK_A9346CBDAE80F5DF` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`);
+  ADD CONSTRAINT `FK_A9346CBDAE80F5DF` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

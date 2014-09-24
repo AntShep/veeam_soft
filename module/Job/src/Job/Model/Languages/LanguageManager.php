@@ -2,6 +2,11 @@
 
 namespace Job\Model\Languages;
 
+/**
+ * Language manager.
+ *
+ * Should be used for relations of short and long names of languages.
+ */
 class LanguageManager {
 
     static function getAll()
