@@ -2,7 +2,6 @@
     <form method="POST" class="form-inline" role="form">
         <div class="form-group">
             <select class="form-control" name="lang_filter" id="lang_filter">
-                <option value="0">Select language</option>
                 <?php foreach($languages as $key => $lang):?>
                     <option value="<?php echo $key ?>" <?php if(isset($select_lang) && $key == $select_lang){echo "selected";} ?>><?php echo $lang ?></option>
                 <?php endforeach; ?>
@@ -10,7 +9,7 @@
         </div>
         <div class="form-group">
             <select class="form-control" name="dep_filter" id="dep_filter">
-                <option value="0">Select department</option>
+                <option value="0">All departments</option>
                 <?php foreach($departments as $department):?>
                     <option value="<?php echo $department->getId() ?>"  <?php if(isset($select_dep) && $department->getId() == $select_dep){echo "selected";} ?>><?php echo $department->getName() ?></option>
                 <?php endforeach; ?>

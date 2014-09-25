@@ -3,6 +3,7 @@
 namespace Job\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Job\Model\Languages\LanguageManager;
 
 /**
  * Vacancy repository.
@@ -11,17 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class VacancyRepository extends EntityRepository {
 
-    public function getAllVacancies()
+    public function getDefaultVacancies()
     {
         $qb = $this->createQueryBuilder('v');
         $qb
             ->select('v, dep, d')
             ->innerJoin('v.department', 'dep')
-            ->innerJoin('v.descriptions', 'd');
+            ->innerJoin('v.descriptions', 'd')
+            ->where('d.lang = :defaultLang')
+            ->setParameter('defaultLang', LanguageManager::DEFAULT_LANG);
         return $qb->getQuery()->getScalarResult();
     }
 
-    public function getVacanciesByFilter($dep = null, $lang = null, $defaultLang = 'en') {
+    public function getVacanciesByFilter($dep = null, $lang = null) {
+        //TODO: A bad solution. It should be changed to a query.
+        $defaultVacancies = $this->getDefaultVacancies();
+
         $qb = $this->createQueryBuilder('v');
         $qb
             ->select('v, dep, d')
@@ -34,17 +40,24 @@ class VacancyRepository extends EntityRepository {
         }
         if($lang) {
             $qb
-                ->addSelect('CASE WHEN d.lang = :lang THEN 0
-                             WHEN d.lang = :defaultLang THEN 1 ELSE 2
-                             END as HIDDEN langOrder')
-//                ->andWhere('')
-                ->setParameter('lang', $lang)
-                ->setParameter('defaultLang', $defaultLang)
-                ->orderBy('langOrder');
-//                ->groupBy('d.vacancy');
+                ->andWhere('d.lang = :lang')
+                ->setParameter('lang', $lang);
+        }
+        $translatedVacancies = $qb->getQuery()->getScalarResult();
+
+        foreach($defaultVacancies as $defVacancy) {
+            $isVacancyDetected = false;
+            foreach($translatedVacancies as $transVacancy) {
+                if($transVacancy['v_id'] == $defVacancy['v_id']) {
+                    $isVacancyDetected = true;
+                    break;
+                }
+            }
+            if(!$isVacancyDetected && (!$dep || $defVacancy['dep_id'] == $dep)) {
+                $translatedVacancies[] = $defVacancy;
+            }
         }
 
-        return $qb->getQuery()->getScalarResult();
+        return $translatedVacancies;
     }
-
 }

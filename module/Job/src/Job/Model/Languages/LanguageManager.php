@@ -9,6 +9,8 @@ namespace Job\Model\Languages;
  */
 class LanguageManager {
 
+    const DEFAULT_LANG = 'en';
+
     static function getAll()
     {
         $languages = array(

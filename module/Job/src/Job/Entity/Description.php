@@ -4,6 +4,7 @@ namespace Job\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation;
 use Job\Model\Identifier\IdentifierTrait;
+use Job\Model\Languages\LanguageManager;
 
 /**
  * Description
@@ -38,11 +39,11 @@ class Description
      * @ORM\Column(type="string", length=5, nullable=false)
      * @Annotation\Validator({"name":"NotEmpty"})
      */
-    protected $lang;
+    protected $lang = LanguageManager::DEFAULT_LANG;
 
     /**
      * @ORM\ManyToOne(targetEntity="Vacancy", inversedBy="descriptions")
-     * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $vacancy;
 

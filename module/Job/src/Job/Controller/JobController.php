@@ -25,14 +25,14 @@ class JobController extends AbstractActionController
             $vacancies = $vacancyRepository->getVacanciesByFilter($select_dep, $select_lang);
         }
         else {
-            $vacancies = $vacancyRepository->getAllVacancies();
+            $vacancies = $vacancyRepository->getDefaultVacancies();
         }
 
         $view = new ViewModel(array(
             'vacancies' => $vacancies,
             'languages' => LanguageManager::getAll(),
             'departments' => $departments,
-            'select_lang' => isset($select_lang) ? $select_lang : null,
+            'select_lang' => isset($select_lang) ? $select_lang : LanguageManager::DEFAULT_LANG,
             'select_dep' => isset($select_dep) ? $select_dep : null,
         ));
         return $view;

@@ -15,7 +15,7 @@ class Vacancy
     use IdentifierTrait;
 
     /**
-     * @ORM\OneToMany(targetEntity="Description" , mappedBy="vacancy" , cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Description" , mappedBy="vacancy" , cascade={"remove"})
      */
     protected $descriptions;
 
