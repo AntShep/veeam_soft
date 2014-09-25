@@ -1,11 +1,10 @@
-ZendSkeletonApplication
+Zend Framework 2 Job Application
 =======================
 
 Introduction
 ------------
 This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
+systems.
 
 Installation
 ------------
@@ -27,37 +26,22 @@ Alternately, clone the repository and manually invoke `composer` using the shipp
     php composer.phar self-update
     php composer.phar install
 
-(The `self-update` directive is to ensure you have an up-to-date `composer.phar`
-available.)
-
-Another alternative for downloading the project is to grab it via `curl`, and
-then pass it to `tar`:
-
-    cd my/project/dir
-    curl -#L https://github.com/zendframework/ZendSkeletonApplication/tarball/master | tar xz --strip-components=1
-
-You would then invoke `composer` to install dependencies per the previous
-example.
-
-Using Git submodules
---------------------
-Alternatively, you can install using native git submodules:
-
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
-
 Web Server Setup
 ----------------
+### Install ssh-server
+    sudo apt-get install openssh-server
 
-### PHP CLI Server
+### Run updates
+    sudo apt-get update
+    sudo apt-get upgrade -y
 
-The simplest way to get started if you are using PHP 5.4 or above is to start the internal PHP cli-server in the root directory:
+### Install build-essential and curl
+    sudo aptitude install build-essential -y
+    sudo apt-get install curl -y
 
-    php -S 0.0.0.0:8080 -t public/ public/index.php
-
-This will start the cli-server on port 8080, and bind it to all network
-interfaces.
-
-**Note: ** The built-in CLI server is *for development only*.
+### Install lamp server
+    sudo tasksel install lamp-server
+    sudo chown -R [username]:[username] /var/www
 
 ### Apache Setup
 
@@ -65,13 +49,38 @@ To setup apache, setup a virtual host to point to the public/ directory of the
 project and you should be ready to go! It should look something like below:
 
     <VirtualHost *:80>
-        ServerName zf2-tutorial.localhost
-        DocumentRoot /path/to/zf2-tutorial/public
-        SetEnv APPLICATION_ENV "development"
-        <Directory /path/to/zf2-tutorial/public>
-            DirectoryIndex index.php
+        ServerName [domain name]
+        DocumentRoot /var/www/[project path]
+        <Directory /var/www/[project path]>
+            # enable the .htaccess rewrites
             AllowOverride All
-            Order allow,deny
-            Allow from all
+            Require all granted
         </Directory>
     </VirtualHost>
+
+Job Application Setup
+---------------------
+Copy project files from GitHub (https://github.com/AntShep/veem_soft) into document root
+
+Create data base `veem` into MySql and run nex command to create tables:
+    ./vendor/bin/doctrine-module orm:schema-tool:update --force
+    ./vendor/bin/doctrine-module orm:validate-schema
+
+Insert into config/autoload/local.php login and password for access to database
+        'doctrine' => array(
+            'connection' => array(
+                'orm_default' => array(
+                    'params' => array(
+                        'user'     => '[user]',
+                        'password' => '[password]',
+                    )
+                )
+            ),
+        ),
+
+Import veem.sql file into your database
+
+
+
+Congratulation. You can use this Application!!!
+===============================================
